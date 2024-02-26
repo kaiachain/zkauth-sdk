@@ -1,0 +1,65 @@
+{
+    "name": "@klaytn/zkauth-sdk",
+    "version": "1.0.0",
+    "license": "MIT",
+    "description": "SDK for zkAuth",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/klaytn/zkauth-sdk"
+    },
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "files": [
+        "./dist",
+        "./src"
+    ],
+    "scripts": {
+        "build": "npm run build:esm && npm run build:bundle",
+        "build:esm": "tsc",
+        "build:bundle": "webpack --mode production",
+        "watch": "tsc -w",
+        "lint": "npm run lint:check",
+        "lint:check": "eslint test src --cache --quiet",
+        "lint:fix": "eslint test src --cache --fix",
+        "test": "mocha --timeout 10000 -r ts-node/register \"test/**/*.ts\""
+    },
+    "devDependencies": {
+        "@types/chai": "^4.3.7",
+        "@types/chai-as-promised": "^7.1.5",
+        "@types/mocha": "^10.0.4",
+        "@typescript-eslint/eslint-plugin": "^6.1.0",
+        "chai": "^4.3.7",
+        "chai-as-promised": "^7.1.1",
+        "eslint": "^8.56.0",
+        "eslint-config-airbnb": "^19.0.4",
+        "eslint-plugin-import": "^2.29.1",
+        "eslint-plugin-jsx-a11y": "^6.8.0",
+        "mocha": "^10.2.0",
+        "ts-loader": "^9.5.1",
+        "ts-node": "^10.9.1",
+        "typedoc": "^0.25.4",
+        "typescript": "^5.0.4",
+        "webpack": "^5.89.0",
+        "webpack-cli": "^5.1.4",
+        "webpack-visualizer-plugin2": "^1.1.0"
+    },
+    "dependencies": {
+        "@account-abstraction/contracts": "^0.6.0",
+        "@account-abstraction/sdk": "^0.6.0",
+        "@types/lodash": "^4.14.202",
+        "axios": "^1.6.2",
+        "base64url": "^3.0.1",
+        "buffer": "^6.0.3",
+        "eip-712": "^1.0.0",
+        "ethers": "^5.7.0",
+        "jwt-decode": "^4.0.0",
+        "lodash": "^4.17.21"
+    },
+    "bugs": {
+        "url": "https://github.com/klaytn/zkauth-sdk"
+    },
+    "homepage": "https://github.com/klaytn/zkauth-sdk#readme",
+    "directories": {
+        "test": "test"
+    }
+}
