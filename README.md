@@ -6,7 +6,9 @@ This is a SDK for zkAuth. It allows applications to interact with zkAuth smart c
 
 ## 2. Installation
 
-TBA
+```sh
+npm i @zkauth/sdk
+```
 
 ## 3. Usage
 
@@ -27,12 +29,12 @@ Users can create their zkAuth wallet based on their OAuth2 idToken.
         - `chainId`: Chain ID
     - Output
         - `cfAddress`: Calculated AA wallet address
-        - `salt`: Salt to generate subHash. The saltSeed is `sub`
+        - `salt`: Salt to generate subHash. Note that the saltSeed is `sub` itself
     - Save
         - `ownerKey`: Save to user side (can't be saved to DB since it's non-custodial wallet)
         - `cfAddress`: Save to DB or user side
         - `saltSeed`: Save to DB or user side
-        - `sub`: Optionally save to DB or user side to reuse it in the future without re-login (e.g. to remove guardian)
+        - `sub (= saltSeed)`: Optionally save to DB or user side to reuse it in the future without re-login (e.g. to remove guardian)
 
     ```js
     const signer = new ethers.Wallet(ownerKey, JsonRpcProvider);
@@ -84,23 +86,13 @@ Users can send transaction called `UserOp` with their zkAuth wallet. It requires
 1. Prepare a RecoveryAccountAPI with appropriate signer and parameters
 
     ```js
-    // If the account hasn't been deployed yet, you need to manually set all the parameters
-    if (isPhantomWallet) {
-        param = {
-            subHash: subHash,
-            initialGuardianAddress: initGuardian,
-            initialOwnerAddress: initOwner,
-            chainIdOrZero: 0,
-            provider: getProvider(network.chainId),
-            entryPointAddress: Addresses.entryPointAddr,
-        };
-    } else {
-        param = {
-            scaAddr: cfAddress,
-            provider: getProvider(network.chainId),
-            entryPointAddress: Addresses.entryPointAddr,
-        };
-    }
+    // Assume that the wallet is already created and deployed
+    // If it hasn't been deployed yet, you need to fill `InitCodeParams` and `BaseApiParams` with the appropriate values
+    param = {
+        scaAddr: cfAddress,
+        provider: getProvider(network.chainId),
+        entryPointAddress: Addresses.entryPointAddr,
+    };
     const scw = new RecoveryAccountAPI(signer, param, Addresses.oidcRecoveryFactoryV02Addr);
     ```
 
@@ -276,6 +268,10 @@ If user wallet is `ghost` wallet, user can't recover it, so delete it and create
         guardian: guardians[idx],
         proof: generateProof(jwks[idx].kid, proof.pi_a, proof.pi_b, proof.pi_c, proofAndPubSigs[idx].pubSignals),
       };
+
+      // Note that subSigner is an optional signer which is owned by the service provider
+      // The subSigner sends transaction on behalf of the user to improve user experience
+      // Without subSigner, user needs to fund KLAY to the new owner address
       await scw.requestRecover(newOwnerAddress, auth, subSigner);
     }
     ...
