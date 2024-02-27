@@ -7,7 +7,7 @@ This is a SDK for zkAuth. It allows applications to interact with zkAuth smart c
 ## 2. Installation
 
 ```sh
-npm i @zkauth/sdk
+npm i @klaytn/zkauth-sdk
 ```
 
 ## 3. Usage
