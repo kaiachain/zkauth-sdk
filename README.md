@@ -1,8 +1,8 @@
-# Account Abstraction SDK for zkAuth
+# Account Abstraction SDK for zkAuth Wallet
 
 ## 1. Introduction
 
-This is a SDK for zkAuth. It allows applications to interact with zkAuth smart contracts, which can create & manage AA wallet based on zkAuth protocol.
+This is a SDK for zkAuth wallet. It allows applications to interact with zkAuth smart contracts, which can create & manage AA wallet based on zkAuth protocol.
 
 ## 2. Installation
 
