@@ -2,7 +2,12 @@
     "name": "@klaytn/zkauth-sdk",
     "version": "0.1.0",
     "license": "MIT",
-    "description": "SDK for zkAuth",
+    "description": "SDK for zkAuth wallet",
+    "keywords": [
+        "klaytn",
+        "zkAuth",
+        "zkAuth sdk"
+    ],
     "repository": {
         "type": "git",
         "url": "git+https://github.com/klaytn/zkauth-sdk"
@@ -50,8 +55,8 @@
         "axios": "^1.6.2",
         "base64url": "^3.0.1",
         "buffer": "^6.0.3",
-        "eip-712": "^1.0.0",
         "ethers": "^5.7.0",
+        "ethers-eip712": "^0.2.0",
         "jwt-decode": "^4.0.0",
         "lodash": "^4.17.21"
     },

@@ -1,7 +1,7 @@
 import { Buffer } from "buffer";
 
-import { getStructHash, keccak256 } from "eip-712";
 import { Contract, utils } from "ethers";
+import { TypedDataUtils } from "ethers-eip712";
 import { jwtDecode } from "jwt-decode";
 
 import { JwtWithNonce, calcSubHash } from "./jwt";
@@ -240,20 +240,6 @@ const fillInTypeData = (args: typeDataArgs) => {
     return typedData;
 };
 
-export const calcNonce = (args: typeDataArgs) => {
-    const typedData = fillInTypeData(args);
-
-    const domainHash = getStructHash(typedData, "EIP712Domain", typedData.domain);
-    const message = getStructHash(typedData, typedData.primaryType, typedData.message);
-
-    const nonce = utils.concat([Buffer.from("1901", "hex"), domainHash, message]);
-    const nonceA = keccak256(nonce);
-
-    const nonceB = keccak256(Math.random().toString());
-
-    return utils.hexlify(utils.concat([nonceA, nonceB]));
-};
-
 // @Note Crypto.subtle is only available in localhost or secure contexts (HTTPS).
 function getCrypto() {
     try {
@@ -262,6 +248,17 @@ function getCrypto() {
         return crypto;
     }
 }
+
+export const calcNonce = (args: typeDataArgs) => {
+    const crypto = getCrypto();
+
+    const typedData = fillInTypeData(args);
+
+    const nonceA = TypedDataUtils.encodeDigest(typedData);
+    const nonceB = utils.keccak256(crypto.getRandomValues(new Uint8Array(32)));
+
+    return utils.hexlify(utils.concat([nonceA, nonceB]));
+};
 
 export async function calcSalt(password: string, salt = "salt", iterations = 1e7) {
     const crypto = getCrypto();
