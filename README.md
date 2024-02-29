@@ -47,10 +47,10 @@ Users can create their zkAuth wallet based on their OAuth2 idToken.
         chainIdOrZero: 0,
         subHash: subHash,
         provider: JsonRpcProvider,
-        entryPointAddress: Addresses[chainId].entryPointAddr,
+        entryPointAddress: Addresses[chainId].EntryPointAddr,
     };
 
-    const scw = new RecoveryAccountAPI(signer, params, Addresses[chainId].oidcRecoveryFactoryV02Addr);
+    const scw = new RecoveryAccountAPI(signer, params, Addresses[chainId].RecoveryFactoryAddr);
     const cfAddress = await scw.getAccountAddress();
     // Save wallet as your own
     ```
@@ -63,7 +63,7 @@ Users can create their zkAuth wallet based on their OAuth2 idToken.
 
     ```js
     const signer = new ethers.Wallet(ownerKey, JsonRpcProvider);
-    const scw = new RecoveryAccountAPI(signer, params, Addresses.oidcRecoveryFactoryV02Addr);
+    const scw = new RecoveryAccountAPI(signer, params, Addresses.RecoveryFactoryAddr);
     const target = cfAddress;
 
     // You can use any UserOp, so use entryPoint() as an example
@@ -93,7 +93,7 @@ Users can send transaction called `UserOp` with their zkAuth wallet. It requires
         provider: getProvider(network.chainId),
         entryPointAddress: Addresses.entryPointAddr,
     };
-    const scw = new RecoveryAccountAPI(signer, param, Addresses.oidcRecoveryFactoryV02Addr);
+    const scw = new RecoveryAccountAPI(signer, param, Addresses.RecoveryFactoryAddr);
     ```
 
 2. Prepare transaction data
@@ -136,9 +136,9 @@ Users can add a new guardian to their zkAuth wallet. It allows same provider but
     const param: RecoveryAccountApiParams = {
         scaAddr: cfAddress,
         provider: JsonRpcProvider,
-        entryPointAddress: Addresses[chainId].entryPointAddr,
+        entryPointAddress: Addresses[chainId].EntryPointAddr,
     };
-    const scw = new RecoveryAccountAPI(signer, param, Addresses[chainId].oidcRecoveryFactoryV02Addr);
+    const scw = new RecoveryAccountAPI(signer, param, Addresses[chainId].RecoveryFactoryAddr);
     const data = scw.encodeAddGuardian(newGuardian, newSubHash, newThreshold);
     const tx: TransactionDetailsForUserOp = {
         target: cfAddress,
@@ -173,9 +173,9 @@ Users can remove a guardian from their zkAuth wallet.
     const param: RecoveryAccountApiParams = {
         scaAddr: cfAddress,
         provider: JsonRpcProvider,
-        entryPointAddress: Addresses[chainId].entryPointAddr,
+        entryPointAddress: Addresses[chainId].EntryPointAddr,
     };
-    const scw = new RecoveryAccountAPI(signer, param, Addresses[chainId].oidcRecoveryFactoryV02Addr);
+    const scw = new RecoveryAccountAPI(signer, param, Addresses[chainId].RecoveryFactoryAddr);
     const data = scw.encodeRemoveGuardian(targetGuardian, newSubHash, newThreshold);
     const tx: TransactionDetailsForUserOp = {
         target: cfAddress,
@@ -257,9 +257,9 @@ If user wallet is `ghost` wallet, user can't recover it, so delete it and create
     const params: RecoveryAccountApiParams = {
       scaAddr: cfAddress,
       provider: JsonRpcProvider,
-      entryPointAddress: Addresses[chainId].entryPointAddr,
+      entryPointAddress: Addresses[chainId].EntryPointAddr,
     };
-    const scw = new RecoveryAccountAPI(signer, params, Addresses[chainId].oidcRecoveryFactoryV02Addr);
+    const scw = new RecoveryAccountAPI(signer, params, Addresses[chainId].RecoveryFactoryAddr);
 
     for (const [idx] of recoverTokens.entries()) {
       const proof = proofAndPubSigs[idx].proof;

@@ -4,45 +4,42 @@ export enum Networks {
 }
 
 interface Addresses {
-    entryPointAddr: string;
-    oidcRecoveryFactoryV02Addr?: string;
-    zkVerifierV02Addr?: string;
-    manualJwksProviderAddr?: string;
-    oraklJwksProviderAddr?: string;
-    googleGuardianV02Addr?: string;
-    kakaoGuardianV02Addr?: string;
-    twitchGuardianV02Addr?: string;
-    appleGuardianV02Addr?: string;
-    lineGuardianV02Addr?: string;
-    counterAddr?: string;
+    CounterAddr?: string;
+    EntryPointAddr: string;
+    RecoveryFactoryAddr?: string;
+    ManualJwksProviderAddr?: string;
+    OraklJwksProviderAddr?: string;
+    GoogleGuardianAddr?: string;
+    KakaoGuardianAddr?: string;
+    TwitchGuardianAddr?: string;
+    AppleGuardianAddr?: string;
+    LineGuardianAddr?: string;
 }
 
 const CYPRESS: Addresses = {
-    entryPointAddr: "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789",
-    oidcRecoveryFactoryV02Addr: undefined,
-    zkVerifierV02Addr: undefined,
-    manualJwksProviderAddr: undefined,
-    oraklJwksProviderAddr: undefined,
-    googleGuardianV02Addr: undefined,
-    kakaoGuardianV02Addr: undefined,
-    twitchGuardianV02Addr: undefined,
-    appleGuardianV02Addr: undefined,
-    lineGuardianV02Addr: undefined,
-    counterAddr: undefined,
+    CounterAddr: undefined,
+    EntryPointAddr: "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789",
+    RecoveryFactoryAddr: undefined,
+    ManualJwksProviderAddr: undefined,
+    OraklJwksProviderAddr: undefined,
+    GoogleGuardianAddr: undefined,
+    KakaoGuardianAddr: undefined,
+    TwitchGuardianAddr: undefined,
+    AppleGuardianAddr: undefined,
+    LineGuardianAddr: undefined,
 };
 
 const BAOBAB: Addresses = {
-    entryPointAddr: "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789",
-    oidcRecoveryFactoryV02Addr: "0x5A454a213BeD09052c6b84a4344a8eD3A69D559c",
-    zkVerifierV02Addr: "0xC7B94E3827FD4D2c638EEae2e9219Da063b5BB55",
-    manualJwksProviderAddr: "0xF871E80Ac5F679f9137Db4091841F0657dFD2B04",
-    oraklJwksProviderAddr: "0x993BcF72A45c834A12a04d095B7961472325B6A2",
-    googleGuardianV02Addr: "0x18B64ff66D993f8875AdA004dD3e11Da61576B35",
-    kakaoGuardianV02Addr: "0x7D3f210ae1E50E40902515D7CDFb7d7Af9dF8323",
-    twitchGuardianV02Addr: "0xaE99480B3FaaB2A79083513b4d8EaD3c04cC6353",
-    appleGuardianV02Addr: undefined,
-    lineGuardianV02Addr: undefined,
-    counterAddr: "0x3F2201Db69c7bD8427FD816ca4d38CC17B448d90",
+    CounterAddr: "0x3F2201Db69c7bD8427FD816ca4d38CC17B448d90",
+    EntryPointAddr: "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789",
+    RecoveryFactoryAddr: "0x280fd135dD72D5bcC060e3b280fa13CF543073FA",
+    ManualJwksProviderAddr: "0x20e8d77CBFAD3d08FD5fa1e118D844a012f4c2bC",
+    OraklJwksProviderAddr: "0xcb10b0FF081797A96258b3aEB45a43E382dA0481",
+    GoogleGuardianAddr: "0xa1930Df14A842b8DfA47BECf5347Bf8A1d8B4E75",
+    KakaoGuardianAddr: "0x364669A6040585A1117979399E454A9a3FabeD03",
+    TwitchGuardianAddr: "0x7897e273EE938cb88A9E6C3DdB36f7e5050D2891",
+    AppleGuardianAddr: undefined,
+    LineGuardianAddr: undefined,
 };
 
 export const Addresses: { [key: number]: Addresses } = {
