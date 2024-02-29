@@ -15,15 +15,15 @@ for (const [key, value] of Object.entries(providerNameToIss)) {
 
 export const getGuardianFromIssOrName = (issOrName: string, chainId: Networks) => {
     if (issOrName === "https://accounts.google.com" || issOrName === "google") {
-        return Addresses[chainId].googleGuardianV02Addr;
+        return Addresses[chainId].GoogleGuardianAddr;
     } else if (issOrName === "https://kauth.kakao.com" || issOrName === "kakao") {
-        return Addresses[chainId].kakaoGuardianV02Addr;
+        return Addresses[chainId].KakaoGuardianAddr;
     } else if (issOrName === "https://appleid.apple.com" || issOrName === "apple") {
-        return Addresses[chainId].appleGuardianV02Addr;
+        return Addresses[chainId].AppleGuardianAddr;
     } else if (issOrName === "https://access.line.me" || issOrName === "line") {
-        return Addresses[chainId].lineGuardianV02Addr;
+        return Addresses[chainId].LineGuardianAddr;
     } else if (issOrName === "https://id.twitch.tv/oauth2" || issOrName === "twitch") {
-        return Addresses[chainId].twitchGuardianV02Addr;
+        return Addresses[chainId].TwitchGuardianAddr;
     } else {
         return "";
     }

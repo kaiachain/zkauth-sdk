@@ -3,7 +3,7 @@ import { ethers } from "ethers";
 import { arrayify, hexConcat, Interface } from "ethers/lib/utils";
 
 import { AuthData } from "./authBuilder";
-import { OIDCRecoveryAccountFactoryV02, OIDCRecoveryAccountV02 } from "./constants/abi";
+import { RecoveryAccountFactory, RecoveryAccount } from "./constants/abi";
 
 /**
  * Needed if user's account is not yet deployed
@@ -47,27 +47,23 @@ export class RecoveryAccountAPI extends BaseAccountAPI {
         this.signer = signer;
     }
 
-    async _getOIDCRecoveryAccountV02(): Promise<ethers.Contract> {
-        const accountContract = new ethers.Contract(
-            await this.getAccountAddress(),
-            OIDCRecoveryAccountV02,
-            this.signer
-        );
+    async _getRecoveryAccount(): Promise<ethers.Contract> {
+        const accountContract = new ethers.Contract(await this.getAccountAddress(), RecoveryAccount, this.signer);
 
         return accountContract;
     }
 
-    async _getOIDCRecoveryAccountFactoryV02(): Promise<ethers.Contract> {
+    async _getRecoveryAccountFactory(): Promise<ethers.Contract> {
         if (this.factoryAddress == null) {
             throw new Error("no factory address");
         }
-        const accountContract = new ethers.Contract(this.factoryAddress, OIDCRecoveryAccountFactoryV02, this.signer);
+        const accountContract = new ethers.Contract(this.factoryAddress, RecoveryAccountFactory, this.signer);
         return accountContract;
     }
 
     async _getAccountContract(): Promise<ethers.Contract> {
         if (this.accountContract == null) {
-            this.accountContract = await this._getOIDCRecoveryAccountV02();
+            this.accountContract = await this._getRecoveryAccount();
         }
         return this.accountContract;
     }
@@ -82,7 +78,7 @@ export class RecoveryAccountAPI extends BaseAccountAPI {
     async _getFactoryContract(): Promise<ethers.Contract> {
         if (this.factory == null) {
             if (this.factoryAddress?.length !== 0) {
-                this.factory = await this._getOIDCRecoveryAccountFactoryV02();
+                this.factory = await this._getRecoveryAccountFactory();
             } else {
                 throw new Error("no factory to get initCode");
             }
@@ -150,7 +146,7 @@ export class RecoveryAccountAPI extends BaseAccountAPI {
     async requestRecover(newOwner: string, auth: AuthData, subSigner?: ethers.Wallet) {
         // TODO: Make separate API for subSigner.
         const sca = subSigner
-            ? new ethers.Contract(await this.getAccountAddress(), OIDCRecoveryAccountV02, subSigner)
+            ? new ethers.Contract(await this.getAccountAddress(), RecoveryAccount, subSigner)
             : await this._getAccountContract();
         const tx = await sca.requestRecover(newOwner, auth);
         await tx.wait();
@@ -169,19 +165,19 @@ export class RecoveryAccountAPI extends BaseAccountAPI {
     }
 
     encodeAddGuardian(guardian: string, subHash: string, newThreshold: number) {
-        const iface = new Interface(OIDCRecoveryAccountV02);
+        const iface = new Interface(RecoveryAccount);
         const data = iface.encodeFunctionData("addGuardian", [guardian, subHash, newThreshold]);
         return data;
     }
 
     encodeRemoveGuardian(guardian: string, subHash: string, newThreshold: number) {
-        const iface = new Interface(OIDCRecoveryAccountV02);
+        const iface = new Interface(RecoveryAccount);
         const data = iface.encodeFunctionData("removeGuardian", [guardian, subHash, newThreshold]);
         return data;
     }
 
     encodeUpdateThreshold(newThreshold: number) {
-        const iface = new Interface(OIDCRecoveryAccountV02);
+        const iface = new Interface(RecoveryAccount);
         const data = iface.encodeFunctionData("updateThreshold", [newThreshold]);
         return data;
     }
