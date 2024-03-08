@@ -41,14 +41,6 @@ export function toHex(buffer: Buffer): string {
     return buffer.toString("hex");
 }
 
-function bufferToUints(buffer: Buffer, chunkLen: number): string[] {
-    const result: string[] = [];
-    _.map(_.chunk(buffer, chunkLen), (slice: Buffer) => {
-        result.push(BigInt("0x" + Buffer.from(slice).toString("hex")).toString());
-    });
-    return result;
-}
-
 export function toUints(buffer: Buffer, maxLen: number): string[] {
     const stretched = stretch(buffer, maxLen);
     const result: string[] = [];
@@ -97,16 +89,4 @@ export function sha256Pad(str: string | Buffer): Buffer {
 export function sha256BlockLen(buf: string | Buffer): number {
     // 1 is for 0x80, 8 is for length bits (64 bits)
     return Math.ceil((buf.length + 1 + 8) / 64);
-}
-
-export function string2Uints(str: string | Buffer, maxLen: number): string[] {
-    const numBits = 248;
-    const numBytes = numBits / 8;
-
-    let paddedStr = Buffer.from(str);
-
-    // Pad the string to the max length
-    paddedStr = stretch(paddedStr, maxLen);
-
-    return bufferToUints(paddedStr, numBytes);
 }
