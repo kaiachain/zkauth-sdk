@@ -9,7 +9,7 @@ import { IJwtProvider } from "./jwtProvider";
 import { typeDataRecovery } from "./samples";
 import { sampleProofA, sampleProofB, sampleProofC } from "./samples/constants";
 
-import { ZkauthJwtV02, string2Uints } from ".";
+import { ZkauthJwtV02, toUints } from ".";
 
 export interface typeDataArgs {
     verifyingContract: string;
@@ -280,7 +280,7 @@ export function calcGuardianId(subHash: string, guardian: string) {
 }
 
 export const generateModPubSig = (modBytes: string | Buffer) => {
-    return string2Uints(modBytes, ZkauthJwtV02.maxPubLen);
+    return toUints(Buffer.from(modBytes), ZkauthJwtV02.maxPubLen);
 };
 
 export const generateJwtPubSig = (jwt: string) => {

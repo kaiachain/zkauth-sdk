@@ -2,7 +2,7 @@ import { Buffer } from "buffer";
 
 import base64url from "base64url";
 
-import { string2Uints, string2UintsSha256Padded, uints2String, uints2Buffer } from "./circuit-helpers";
+import * as helper from "./circuit-helpers";
 
 export const ZkauthJwtV02 = {
     maxSaltedSubLen: 341, // 31 * 11
@@ -25,14 +25,13 @@ export const ZkauthJwtV02 = {
 
         const payOff = header.length + 1; // position in base64-encoded JWT
         const payLen = payload.length;
-        const pay = base64url.decode(payload);
+        // toString('ascii') may result in some unicode characters to be misinterpreted
+        const pay = base64url.toBuffer(payload).toString("ascii");
         const payObject = JSON.parse(base64url.decode(payload));
         console.assert(signedJwt.substring(payOff, payOff + payLen) == payload, "payOff");
 
-        // [ string ][ 80 ][ 00..00 ][ len ]
-        const jwtUints = string2UintsSha256Padded(jwt, maxLen);
-        // 1 is for 0x80, 8 is for length bits (64 bits)
-        const jwtBlocks = Math.ceil((jwt.length + 1 + 8) / 64);
+        const jwtUints = helper.toUints(helper.sha256Pad(jwt), maxLen);
+        const jwtBlocks = helper.sha256BlockLen(jwt);
 
         // Claims
         function claimPos(jwt: string, name: string): number[] {
@@ -67,13 +66,12 @@ export const ZkauthJwtV02 = {
         const sub = '"' + payObject["sub"] + '"';
         // salt is hex string and sub is ASCII string
         const saltedSub = Buffer.concat([Buffer.from(salt, "hex"), Buffer.from(sub, "ascii")]);
-        const saltedSubUints = string2UintsSha256Padded(saltedSub, maxSaltedSubLen);
-        // 1 is for 0x80, 8 is for length bits (64 bits)
-        const saltedSubBlocks = Math.ceil((saltedSub.length + 1 + 8) / 64);
+        const saltedSubUints = helper.toUints(helper.sha256Pad(saltedSub), maxSaltedSubLen);
+        const saltedSubBlocks = helper.sha256BlockLen(saltedSub);
 
         // Signature
-        const sigUints = string2Uints(base64url.toBuffer(signature), maxSigLen);
-        const pubUints = string2Uints(base64url.toBuffer(pub), maxPubLen);
+        const sigUints = helper.toUints(helper.fromBase64(signature), maxSigLen);
+        const pubUints = helper.toUints(helper.fromBase64(pub), maxPubLen);
 
         return {
             jwtUints,
@@ -94,26 +92,25 @@ export const ZkauthJwtV02 = {
         };
     },
     process_output: function (pubsig: string[]) {
-        const iss = uints2String(pubsig.slice(0, 9));
+        const iss = helper.toASCII(helper.fromUints(pubsig.slice(0, 9)));
         const issLen = pubsig[9];
-        const aud = uints2String(pubsig.slice(10, 19));
+        const aud = helper.toASCII(helper.fromUints(pubsig.slice(10, 19)));
         const audLen = pubsig[19];
-        const iat = uints2String(pubsig.slice(20, 29));
+        const iat = helper.toASCII(helper.fromUints(pubsig.slice(20, 29)));
         const iatLen = pubsig[29];
-        const exp = uints2String(pubsig.slice(30, 39));
+        const exp = helper.toASCII(helper.fromUints(pubsig.slice(30, 39)));
         const expLen = pubsig[39];
-        const nonce = uints2String(pubsig.slice(40, 49));
+        const nonce = helper.toASCII(helper.fromUints(pubsig.slice(40, 49)));
         const nonceLen = pubsig[49];
-        const hSub =
-            BigInt(pubsig[50]).toString(16).padStart(32, "0") + BigInt(pubsig[51]).toString(16).padStart(32, "0");
-        const pub = base64url(uints2Buffer(pubsig.slice(52, 61)).subarray(0, 256));
+        const hSub = "0x" + helper.toHex(helper.fromUints(pubsig.slice(50, 52)).subarray(0, 32));
+        const pub = helper.toBase64(helper.fromUints(pubsig.slice(52, 61)).subarray(0, 256));
 
         console.log("iss =", iss, ", issLen =", issLen);
         console.log("aud =", aud, ", audLen =", audLen);
         console.log("iat =", iat, ", iatLen =", iatLen);
         console.log("exp =", exp, ", expLen =", expLen);
         console.log("nonce =", nonce, ", nonceLen =", nonceLen);
-        console.log("hSub =", "0x" + hSub);
+        console.log("hSub =", hSub);
         console.log("pub =", pub);
     },
 };

@@ -225,8 +225,6 @@ If user wallet is `ghost` wallet, user can't recover it, so delete it and create
     const iss: string[] = [];
     const sub: string[] = [];
     const salts: string[] = [];
-    const confUrls: string[] = [];
-    const jwkUrls: string[] = [];
     const jwks: RsaJsonWebKey[] = [];
     const proofAndPubSigs: any[] = [];
 
@@ -239,8 +237,6 @@ If user wallet is `ghost` wallet, user can't recover it, so delete it and create
       sub.push(subTemp);
       salts.push(await calcSalt(subTemp));
       const provider = getProviderNameFromIss(issTemp);
-      confUrls.push(OIDCProviders.find(p => p.name === provider.toLowerCase())?.confUrl as string);
-      jwkUrls.push(OIDCProviders.find(p => p.name === provider.toLowerCase())?.jwkUrl as string);
       jwks.push((await getJWKs(provider, header.kid)) as RsaJsonWebKey);
 
       // Prepare zk proof
