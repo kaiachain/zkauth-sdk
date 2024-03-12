@@ -1,0 +1,130 @@
+[
+    {
+        "inputs": [
+            {
+                "internalType": "contract IEntryPoint",
+                "name": "_entryPoint",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "constructor"
+    },
+    {
+        "inputs": [],
+        "name": "MAJOR",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "pure",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "MINOR",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "pure",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "accountImplementation",
+        "outputs": [
+            {
+                "internalType": "contract RecoveryAccount",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "subHash",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "address",
+                "name": "guardian",
+                "type": "address"
+            },
+            {
+                "internalType": "address",
+                "name": "initialOwner",
+                "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "idx",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint16",
+                "name": "chainIdOrZero",
+                "type": "uint16"
+            }
+        ],
+        "name": "createAccount",
+        "outputs": [
+            {
+                "internalType": "contract IRecoveryAccount",
+                "name": "ret",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "subHash",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "address",
+                "name": "guardian",
+                "type": "address"
+            },
+            {
+                "internalType": "address",
+                "name": "initialOwner",
+                "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "idx",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint16",
+                "name": "chainIdOrZero",
+                "type": "uint16"
+            }
+        ],
+        "name": "getAddress",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    }
+]
