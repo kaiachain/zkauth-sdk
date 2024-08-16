@@ -37,9 +37,9 @@ module.exports = {
             "warn",
             {
                 alphabetize: { order: "asc", caseInsensitive: true },
-                pathGroups: [{ pattern: "@klaytn/**", group: "parent", position: "after" }],
+                pathGroups: [{ pattern: "@kaiachain/**", group: "parent", position: "after" }],
                 "newlines-between": "always",
-                pathGroupsExcludedImportTypes: ["@klaytn/**"],
+                pathGroupsExcludedImportTypes: ["@kaiachain/**"],
             },
         ],
 

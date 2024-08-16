@@ -1,16 +1,3 @@
-[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
-
-# NO LONGER MAINTAINED
-
-> [!IMPORTANT]
-> Since the launch of Kaia Blockchain this repository has been parked in favour of the new open-source projects in [Kaia's Github](https://github.com/kaiachain). Contributors have now moved there continuing with massive open-source contributions to our blockchain ecosystem. A big thank you to everyone who has contributed to this repository.
->
-> For future development and contributions, please refer to the new [zkauth-sdk repository](https://github.com/kaiachain/zkauth-sdk).
->
-> For more information about Klaytn's chain merge with Finschia blockchain please refer to the launching of Kaia blockchain - [kaia.io](https://kaia.io/).
-
----
-
 # Account Abstraction SDK for zkAuth Wallet
 
 ## 1. Introduction
@@ -20,7 +7,7 @@ This is a SDK for zkAuth wallet. It allows applications to interact with zkAuth 
 ## 2. Installation
 
 ```sh
-npm i @klaytn/zkauth-sdk
+npm i @kaiachain/zkauth-sdk
 ```
 
 ## 3. Usage
@@ -72,7 +59,7 @@ Users can create their zkAuth wallet based on their OAuth2 idToken.
 
 3. Deploy Wallet (Strongly recommended)
 
-    The AA wallet can be deployed by i) `Factory.createAccount` or ii) First `UserOp` with `initCode` in the transaction data. Since the owner address needs to be funded with KLAY for first method, it's recommended to use second method, which is more user-friendly.
+    The AA wallet can be deployed by i) `Factory.createAccount` or ii) First `UserOp` with `initCode` in the transaction data. Since the owner address needs to be funded with KAIA for first method, it's recommended to use second method, which is more user-friendly.
 
     ```js
     const signer = new ethers.Wallet(ownerKey, JsonRpcProvider);
@@ -280,7 +267,7 @@ If user wallet is `ghost` wallet, user can't recover it, so delete it and create
 
       // Note that subSigner is an optional signer which is owned by the service provider
       // The subSigner sends transaction on behalf of the user to improve user experience
-      // Without subSigner, user needs to fund KLAY to the new owner address
+      // Without subSigner, user needs to fund KAIA to the new owner address
       await scw.requestRecover(newOwnerAddress, auth, subSigner);
     }
     ...
