@@ -33,5 +33,5 @@ jobs:
         env:
             NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-            npx pnpm --filter "@klaytn/*" -r publish --publish-branch main --no-git-check --access=public
+            npx pnpm --filter "@kaiachain/*" -r publish --publish-branch main --no-git-check --access=public
         
